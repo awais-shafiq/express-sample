@@ -1,8 +1,18 @@
 const express = require("express");
 const indexRoutes = require("./routes/IndexRoute");
 
+const knex = require("knex");
+const knexConfig = require("./knexfile");
+const { Model } = require("objection");
+
 const app = express();
 
+const knexConnection = knex(knexConfig.development);
+
+Model.knex(knexConnection);
+
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
 
 app.use("/item", indexRoutes);
 
